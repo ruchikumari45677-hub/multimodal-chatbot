@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multimodal AI Chatbot</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Top App Bar -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="brand">
+                    <span class="brand-icon">✨</span>
+                    <div>
+                        <h1>Multimodal Chatbot</h1>
+                        <p class="subtitle">Powered by Gemini 2.5 Flash &bull; Text, Image &amp; Audio</p>
+                    </div>
+                </div>
+                <div class="status-indicator" title="Connected to local server">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Server Online</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Chat Message Pane -->
+        <main class="chat-viewport" id="chat-viewport">
+            <div class="messages-container" id="messages-container" role="log" aria-live="polite">
+                <!-- Welcome Card -->
+                <div class="message system-message">
+                    <div class="message-content welcome-card">
+                        <h3>👋 Welcome to the Multimodal Lab Chatbot!</h3>
+                        <p>You can chat by typing, attaching an image, or uploading an audio file:</p>
+                        <ul class="features-list">
+                            <li>💬 <strong>Text</strong>: Ask any question, brainstorm, or explore concepts.</li>
+                            <li>📷 <strong>Image</strong>: Upload PNG, JPG, or WEBP (up to 10 MB) to inspect visuals.</li>
+                            <li>🎙️ <strong>Audio</strong>: Upload MP3, WAV, OGG, or M4A (up to 20 MB) for summaries &amp; transcripts.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Controls & Input Footer -->
+        <footer class="app-footer">
+            <!-- Alert / Error Toast -->
+            <div id="error-toast" class="error-toast hidden" role="alert" aria-live="assertive">
+                <span class="error-icon">⚠️</span>
+                <span id="error-message" class="error-text"></span>
+                <button type="button" id="dismiss-error-btn" class="dismiss-btn" aria-label="Dismiss error">&times;</button>
+            </div>
+
+            <!-- Staged Attachments Tray -->
+            <div id="attachment-tray" class="attachment-tray hidden">
+                <!-- Staged Image Chip -->
+                <div id="image-chip" class="attachment-chip hidden">
+                    <img id="image-chip-thumb" src="" alt="Selected image preview" class="chip-thumb">
+                    <div class="chip-info">
+                        <span id="image-chip-name" class="chip-name">image.png</span>
+                        <span id="image-chip-size" class="chip-size">1.2 MB</span>
+                    </div>
+                    <button type="button" id="remove-image-btn" class="chip-remove-btn" title="Remove image" aria-label="Remove image">&times;</button>
+                </div>
+
+                <!-- Staged Audio Chip -->
+                <div id="audio-chip" class="attachment-chip hidden">
+                    <div class="chip-audio-icon">🎵</div>
+                    <div class="chip-info">
+                        <span id="audio-chip-name" class="chip-name">recording.mp3</span>
+                        <span id="audio-chip-size" class="chip-size">3.4 MB</span>
+                    </div>
+                    <button type="button" id="remove-audio-btn" class="chip-remove-btn" title="Remove audio" aria-label="Remove audio">&times;</button>
+                </div>
+            </div>
+
+            <!-- Input Form -->
+            <form id="chat-form" class="chat-form" autocomplete="off">
+                <!-- Hidden native file inputs -->
+                <input type="file" id="image-input" accept="image/png, image/jpeg, image/webp" class="visually-hidden">
+                <input type="file" id="audio-input" accept="audio/mpeg, audio/wav, audio/ogg, audio/mp4, audio/x-m4a, .mp3, .wav, .ogg, .m4a" class="visually-hidden">
+
+                <div class="input-actions-left">
+                    <button type="button" id="attach-image-btn" class="action-btn" title="Attach image (PNG, JPG, WEBP)" aria-label="Attach image">
+                        📷
+                    </button>
+                    <button type="button" id="attach-audio-btn" class="action-btn" title="Attach audio (MP3, WAV, OGG, M4A)" aria-label="Attach audio">
+                        🎙️
+                    </button>
+                </div>
+
+                <div class="input-field-wrapper">
+                    <textarea 
+                        id="prompt-input" 
+                        class="prompt-textarea" 
+                        placeholder="Type a message or question (Enter to send, Shift+Enter for newline)..." 
+                        rows="1"
+                        aria-label="Message prompt"></textarea>
+                </div>
+
+                <div class="input-actions-right">
+                    <button type="submit" id="send-btn" class="send-btn" aria-label="Send message">
+                        <span>Send</span>
+                        <span class="send-icon">➤</span>
+                    </button>
+                </div>
+            </form>
+        </footer>
+    </div>
+
+    <!-- Client Script -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
